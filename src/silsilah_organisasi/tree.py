@@ -44,17 +44,19 @@ class OrganizationTree:
 
     # 2. SEARCH NODE
     def search_node(self, keyword):
-        keyword = keyword.strip().lower()
-
-        if not keyword:
-            return []
-
         results = []
 
-        for node in self.preorder():
-            if (keyword in node.name.lower()
-                    or keyword in node.position.lower()):
+        def traverse(node):
+            if node is None:
+                return
+
+            if keyword.lower() == node.name.lower():
                 results.append(node)
+
+            for child in node.children:
+                traverse(child)
+
+        traverse(self.root)
 
         return results
 

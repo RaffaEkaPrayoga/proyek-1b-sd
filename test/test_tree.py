@@ -3,7 +3,7 @@ import pytest
 
 from silsilah_organisasi.node import EmployeeNode
 from silsilah_organisasi.tree import OrganizationTree
-from silsilah_organisasi.main import build_sample_tree
+from silsilah_organisasi.sample_data import build_sample_tree
 
 
 # 1. Pengujian insert_node
@@ -12,12 +12,12 @@ def test_insert_node():
 
     new_node = tree.insert_node(
         "P006",
-        "P009",
+        "P019",
         "Dewi",
         "Dosen"
     )
 
-    assert new_node.employee_id == "P009"
+    assert new_node.employee_id == "P019"
     assert new_node.parent.employee_id == "P006"
 
 
@@ -25,20 +25,20 @@ def test_insert_node():
 def test_search_by_name():
     tree = build_sample_tree()
 
-    results = tree.search_node("Rina")
+    results = tree.search_node("Wakil Rektor I")
 
     assert len(results) == 1
-    assert results[0].name == "Rina"
+    assert results[0].name == "Wakil Rektor I"
 
 
 # 3. Pengujian pencarian berdasarkan jabatan
 def test_search_by_position():
     tree = build_sample_tree()
 
-    results = tree.search_node("Dosen")
+    results = tree.search_node("Koordinator Dosen")
 
     assert len(results) == 1
-    assert results[0].position == "Dosen"
+    assert results[0].position == "Koordinator Dosen"
 
 
 # 4. Pengujian ID duplikat
@@ -61,7 +61,7 @@ def test_parent_not_found():
     with pytest.raises(ValueError):
         tree.insert_node(
             "P999",
-            "P010",
+            "P020",
             "Nama Baru",
             "Dosen"
         )
@@ -77,8 +77,11 @@ def test_preorder():
     ]
 
     assert result == [
-        "P001", "P002", "P003", "P004",
-        "P005", "P007", "P008", "P006"
+        "P001",
+        "P002", "P003", "P004", "P005", "P006",
+        "P007", "P008", "P009", "P010",
+        "P011", "P012", "P014", "P015",
+        "P013", "P016", "P017", "P018"
     ]
 
 
@@ -92,8 +95,11 @@ def test_inorder():
     ]
 
     assert result == [
-        "P002", "P001", "P003", "P007",
-        "P005", "P008", "P004", "P006"
+        "P002", "P001", "P003", "P004", "P005",
+        "P007", "P006", "P008", "P009",
+        "P011", "P010",
+        "P014", "P012", "P015",
+        "P017", "P016", "P013", "P018"
     ]
 
 
@@ -107,8 +113,11 @@ def test_postorder():
     ]
 
     assert result == [
-        "P002", "P003", "P007", "P008",
-        "P005", "P006", "P004", "P001"
+        "P002", "P003", "P004", "P005",
+        "P007", "P008", "P009",
+        "P011", "P014", "P015", "P012",
+        "P017", "P016", "P018", "P013",
+        "P010", "P006", "P001"
     ]
 
 
