@@ -42,6 +42,7 @@ class OrganizationTree:
 
         return new_node
 
+    
     # 2. SEARCH NODE
     def search_node(self, keyword):
         results = []
@@ -50,7 +51,8 @@ class OrganizationTree:
             if node is None:
                 return
 
-            if keyword.lower() == node.name.lower():
+            if (keyword.lower() == str(node.employee_id).lower() or
+                keyword.lower() == node.name.lower()):
                 results.append(node)
 
             for child in node.children:
